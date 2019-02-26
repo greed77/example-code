@@ -1,12 +1,8 @@
 <?php
+require_once('config.php');
 
 class db
 {
-
-    private $server = "127.0.0.1";
-    private $user = "db_user";
-    private $dbname = "db_name";
-    private $pass = "super_secure_password";
 
     private $conn;
 
@@ -16,8 +12,9 @@ class db
 
     public function connect() {
         // Create connection
-        $datasource = "mysql:host=" . $this->server . ";dbname=" . $this->dbname . ";";
-        $this->conn = new PDO($datasource, $this->user, $this->pass);
+        $datasource = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";";
+        $this->conn = new PDO($datasource, DB_USER, DB_PASS);
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return true;
     }
 
@@ -36,18 +33,22 @@ class db
         return $records;
     }
 
-    public function insert($params = []) {
-        if (count($params) > 0) {
+    public function insert($tablename, $params = []) {
+        if (trim($tablename) !== "" && count($params) > 0) {
             foreach ($params as $field => $value) {
-                $fields[] = "`$field`";
-                $values[] = "'".$value."'";
+                $fields[] = $field;
+                $values[$field] = $value;
             }
 
-            $fields = implode(", ", $fields);
-            $values = implode(", ", $values);
-            $sql = "INSERT INTO `contacts` ($fields) VALUES ($values)";
+            $sql = "INSERT INTO $tablename (".implode(", ", $fields).") VALUES (" . ":" . implode(", :", $fields) . ")";
+            $statement = $this->conn->prepare($sql);
+            if (!$statement) {
+                echo "\nPDO::errorInfo():\n";
+                print_r($this->conn->errorInfo());
+            }
+            $statement->execute($values);
 
-            return $this->conn->query($sql);
+            return $statement;
         }
         else {
             return false;

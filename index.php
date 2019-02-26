@@ -1,6 +1,6 @@
 <?php
 
-require_once('db.php');
+require_once('./includes/db.php');
 
 $db = new db();
 
@@ -21,7 +21,9 @@ if (count($_POST) > 0) {
             case "insert":
                 $params = $_POST;
                 unset($params['action']);
-                $success = $db->insert($params);
+
+                $success = $db->insert('contacts', $params);
+
                 if ($success) {
                     echo "record inserted";
                 }
