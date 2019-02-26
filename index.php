@@ -52,12 +52,12 @@ $states = [
         <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready( function () {
-                $('#contacts').DataTable();
+                // $('#contacts').DataTable();
             } );
         </script>
         <script>
             function validateForm() {
-                alert('test');
+                // alert('test');
                 // values entered checks
                 var newName = document.forms["frmNewEntry"]["txtNewName"].value;
                 var newEmail = document.forms["frmNewEntry"]["txtNewEmail"].value;
