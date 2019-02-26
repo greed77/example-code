@@ -21,7 +21,13 @@ if (count($_POST) > 0) {
             case "insert":
                 $params = $_POST;
                 unset($params['action']);
+//                echo "<pre>";
+//                echo __LINE__ . ":" . print_r($params, true) . "\n";
+
                 $success = $db->insert($params);
+//                echo __LINE__ . ":" . print_r($success, true) . "\n";
+
+//                echo "</pre>";
                 if ($success) {
                     echo "record inserted";
                 }
