@@ -33,25 +33,20 @@ class db
         return $records;
     }
 
-    public function insert($params = []) {
-        if (count($params) > 0) {
+    public function insert($tablename, $params = []) {
+        if (trim($tablename) !== "" && count($params) > 0) {
             foreach ($params as $field => $value) {
                 $fields[] = $field;
                 $values[$field] = $value;
             }
 
-            $sql = "INSERT INTO contacts (".implode(", ", $fields).") VALUES (" . ":" . implode(", :", $fields) . ")";
-//            echo __LINE__ . ":" . $sql . "\n";
-//            echo __LINE__ . ":" . print_r($values, true) . "\n";
+            $sql = "INSERT INTO $tablename (".implode(", ", $fields).") VALUES (" . ":" . implode(", :", $fields) . ")";
             $statement = $this->conn->prepare($sql);
             if (!$statement) {
-//                echo __LINE__ . "\n";
                 echo "\nPDO::errorInfo():\n";
                 print_r($this->conn->errorInfo());
             }
             $statement->execute($values);
-
-//            echo __LINE__ . ":" . print_r($statement, true) . "\n";
 
             return $statement;
         }
