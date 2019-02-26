@@ -45,8 +45,19 @@ $states = [
 ?>
 <html>
     <head>
+<!--        <link rel="stylesheet" href="/media/css/site.css?_=ab06aa87f8858bbaa3ed3e46859a7588">-->
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready( function () {
+                $('#contacts').DataTable();
+            } );
+        </script>
         <script>
             function validateForm() {
+                alert('test');
                 // values entered checks
                 var newName = document.forms["frmNewEntry"]["txtNewName"].value;
                 var newEmail = document.forms["frmNewEntry"]["txtNewEmail"].value;
@@ -95,7 +106,7 @@ $states = [
         </script>
     </head>
     <body>
-        <table>
+        <table id="contacts">
             <thead>
             <tr>
                 <td>ID</td>
@@ -128,31 +139,33 @@ $states = [
                 <?php
             }
             ?>
-            <form method="POST" action="index.php" id="frmNewEntry" onsubmit="return validateForm()">
-                <tr>
-                    <td>&nbsp;</td>
-                    <td><input type="text" name="Name" id="txtNewName" /></td>
-                    <td><input type="text" name="Email" id="txtNewEmail" /></td>
-                    <td>
-                        <select name="State" id="drpNewState">
-                            <?php
-                            foreach ($states as $state) {
-                                ?>
-                                <option><?php echo $state; ?></option>
-                                <?php
-                            }
-                            ?>
-                            ?>
-                        </select>
-                    </td>
-                    <td><input type="checkbox" name="Interested" id="chkNewInterested" value="1" /> </td>
-                    <td>
-                        <input type="hidden" name="action" value="insert">
-                        <button>insert</button>
-                    </td>
-                </tr>
-            </form>
             </tbody>
+            <tfoot>
+            <form method="POST" action="index.php" id="frmNewEntry" onsubmit="return validateForm()">
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="text" name="Name" id="txtNewName" /></td>
+                <td><input type="text" name="Email" id="txtNewEmail" /></td>
+                <td>
+                    <select name="State" id="drpNewState">
+                        <?php
+                        foreach ($states as $state) {
+                            ?>
+                            <option><?php echo $state; ?></option>
+                            <?php
+                        }
+                        ?>
+                        ?>
+                    </select>
+                </td>
+                <td><input type="checkbox" name="Interested" id="chkNewInterested" value="1" /> </td>
+                <td>
+                    <input type="hidden" name="action" value="insert">
+                    <button>insert</button>
+                </td>
+            </tr>
+            </form>
+            </tfoot>
         </table>
     </body>
 </html>
